@@ -21,7 +21,7 @@ public class EmployeeRecordController {
     private EmployeeRecordService service;
 
     @PostMapping("/createRecord")
-    public ResponseEntity<List<EmployeeRecord>> createRecord(@RequestBody byte[] spreadsheet) {
+    public ResponseEntity<?> createRecord(@RequestBody byte[] spreadsheet) {
         List<EmployeeRecord> createdRecords = new ArrayList<>();
 
         try {
@@ -60,8 +60,10 @@ public class EmployeeRecordController {
 
             return ResponseEntity.ok(createdRecords);
         } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Invalid spreadsheet format. Please upload a valid Base64 encoded version of an Excel in xlsx format."
+                        + e.getMessage());
         }
     }
 
