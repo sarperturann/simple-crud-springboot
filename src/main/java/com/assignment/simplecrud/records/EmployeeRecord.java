@@ -15,7 +15,7 @@ public class EmployeeRecord implements Serializable {
     private int age;
     private int salary;
     @Column(name = "work_years")
-    private String workYears;
+    private int workYears;
     private String title;
 
     @Override
@@ -71,11 +71,11 @@ public class EmployeeRecord implements Serializable {
         this.salary = salary;
     }
 
-    public String getWorkYears() {
+    public int getWorkYears() {
         return workYears;
     }
 
-    public void setWorkYears(String workYears) {
+    public void setWorkYears(int workYears) {
         this.workYears = workYears;
     }
 

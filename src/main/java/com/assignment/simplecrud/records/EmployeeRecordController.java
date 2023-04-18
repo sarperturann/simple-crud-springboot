@@ -51,7 +51,7 @@ public class EmployeeRecordController {
                 employeeRecord.setSurname(surname);
                 employeeRecord.setAge(age);
                 employeeRecord.setSalary(salary);
-                employeeRecord.setWorkYears(String.valueOf(workYears));
+                employeeRecord.setWorkYears(workYears);
                 employeeRecord.setTitle(title);
 
                 EmployeeRecord savedRecord = service.createEmployeeRecord(employeeRecord);
