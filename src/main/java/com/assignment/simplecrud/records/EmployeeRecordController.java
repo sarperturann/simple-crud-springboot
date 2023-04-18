@@ -4,8 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api")
 public class EmployeeRecordController {
@@ -19,15 +17,30 @@ public class EmployeeRecordController {
     }
 
     @PostMapping("/updateRecord")
-    public String updateRecord() {
-        return "not implemented yet";
+    public ResponseEntity<String> updateRecord(@RequestBody EmployeeRecord employeeRecord) {
+        EmployeeRecord existingRecord = service.getEmployeeRecordById(employeeRecord.getId());
+        if (existingRecord != null) {
+            service.updateEmployeeRecord(employeeRecord);
+            return ResponseEntity.ok("Record updated successfully");
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(String.format("Employee record with ID %d not found", employeeRecord.getId()));
+        }
     }
 
     @PostMapping("/deleteRecord")
-    public String deleteRecord(@RequestParam int id) {
-        return "not implemented yet";
+    public ResponseEntity<String> deleteRecord(@RequestParam int id) {
+        EmployeeRecord existingRecord = service.getEmployeeRecordById((long) id);
+        if (existingRecord != null) {
+            service.deleteEmployeeRecord((long) id);
+            return ResponseEntity.ok("Record deleted successfully");
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(String.format("Employee record with ID %d not found", id));
+        }
     }
-
     @GetMapping("/readRecord")
     public ResponseEntity<?> readRecord(@RequestParam int id) {
         EmployeeRecord employeeRecord = service.getEmployeeRecordById((long) id);
@@ -36,7 +49,7 @@ public class EmployeeRecordController {
         } else {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("message", String.format("Employee record with ID %d not found", id)));        }
+                    .body(String.format("Employee record with ID %d not found", id));        }
     }
 
     @PostMapping("/addRecord")

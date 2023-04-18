@@ -25,4 +25,8 @@ public class EmployeeRecordService {
     public void deleteEmployeeRecord(Long employeeRecordId) {
         employeeRecordRepository.deleteById(employeeRecordId);
     }
+
+    public void updateEmployeeRecord(EmployeeRecord employeeRecord) {
+        employeeRecordRepository.save(employeeRecord);
+    }
 }
