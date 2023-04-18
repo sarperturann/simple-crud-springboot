@@ -1,8 +1,17 @@
 package com.assignment.simplecrud.records;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -12,8 +21,48 @@ public class EmployeeRecordController {
     private EmployeeRecordService service;
 
     @PostMapping("/createRecord")
-    public String createRecord() {
-        return "not implemented yet";
+    public ResponseEntity<List<EmployeeRecord>> createRecord(@RequestBody byte[] spreadsheet) {
+        List<EmployeeRecord> createdRecords = new ArrayList<>();
+
+        try {
+            byte[] decoded = Base64.getDecoder().decode(spreadsheet);
+            InputStream inputStream = new ByteArrayInputStream(decoded);
+            Workbook workbook = WorkbookFactory.create(inputStream, "xlsx");
+
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rowIterator = sheet.rowIterator();
+
+            if (rowIterator.hasNext()) {
+                rowIterator.next();
+            }
+
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+
+                String name = row.getCell(0).getStringCellValue();
+                String surname = row.getCell(1).getStringCellValue();
+                int age = (int) row.getCell(2).getNumericCellValue();
+                int salary = (int) row.getCell(3).getNumericCellValue();
+                int workYears = (int) row.getCell(4).getNumericCellValue();
+                String title = row.getCell(5).getStringCellValue();
+
+                EmployeeRecord employeeRecord = new EmployeeRecord();
+                employeeRecord.setName(name);
+                employeeRecord.setSurname(surname);
+                employeeRecord.setAge(age);
+                employeeRecord.setSalary(salary);
+                employeeRecord.setWorkYears(String.valueOf(workYears));
+                employeeRecord.setTitle(title);
+
+                EmployeeRecord savedRecord = service.createEmployeeRecord(employeeRecord);
+                createdRecords.add(savedRecord);
+            }
+
+            return ResponseEntity.ok(createdRecords);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PostMapping("/updateRecord")

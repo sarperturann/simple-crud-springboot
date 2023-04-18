@@ -18,10 +18,6 @@ public class EmployeeRecordService {
         return employeeRecordRepository.findById(employeeRecordId).orElse(null);
     }
 
-    public List<EmployeeRecord> getEmployeeRecords() {
-        return employeeRecordRepository.findAll();
-    }
-
     public void deleteEmployeeRecord(Long employeeRecordId) {
         employeeRecordRepository.deleteById(employeeRecordId);
     }
