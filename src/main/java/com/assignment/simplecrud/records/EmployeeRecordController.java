@@ -67,7 +67,7 @@ public class EmployeeRecordController {
         }
     }
 
-    @PostMapping("/updateRecord")
+    @PutMapping("/updateRecord")
     public ResponseEntity<String> updateRecord(@RequestBody EmployeeRecord employeeRecord) {
         EmployeeRecord existingRecord = service.getEmployeeRecordById(employeeRecord.getId());
         if (existingRecord != null) {
@@ -80,7 +80,7 @@ public class EmployeeRecordController {
         }
     }
 
-    @PostMapping("/deleteRecord")
+    @DeleteMapping("/deleteRecord")
     public ResponseEntity<String> deleteRecord(@RequestParam int id) {
         EmployeeRecord existingRecord = service.getEmployeeRecordById((long) id);
         if (existingRecord != null) {
