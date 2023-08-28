@@ -18,17 +18,4 @@ After running these commands in sequence, the application is initialized and now
 
 ---
 
-### Limitations/Potential Improvements
-In terms of overall functionality there are some edge cases not covered. For example the createRecord function carries a risk to give ```NullPointerException``` if any of the cells or input is null. 
-
-Input validation can be added to avoid mistakes and ensure the data stored in the database is valid.
-
-Instead of using ```POST``` mapping for deleteRecord and updateRecord functions, more suiting HTTP verbs can be used to be semantically correct like ```DELETE``` and ```PUT```.
-
-Addition of unit tests are critical.
-
-In a real-life scenario it would be better to use different data types instead of just int for cases such as salary, workYears etc.
-
----
-
 [API Documentation](API_DOCUMENTATION.md)
