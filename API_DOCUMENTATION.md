@@ -17,7 +17,7 @@ This document will be used to document the API operations. The example requests 
 - Example request:  ``http://localhost:8080/api/readRecord?id=7``
 
 ### Update Record
-- Endpoint (POST)
+- Endpoint (PUT)
  ``http://localhost:8080/api/updateRecord``
 - Enter a JSON body ``{
     "id": 4,
@@ -30,7 +30,7 @@ This document will be used to document the API operations. The example requests 
 }``
 
 ### Delete Record
-- Endpoint (POST)
+- Endpoint (DELETE)
  ``http://localhost:8080/api/deleteRecord``
 - Enter the id as a parameter
 - Example request:  ``http://localhost:8080/api/deleteRecord?id=7``
